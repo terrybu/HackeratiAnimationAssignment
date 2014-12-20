@@ -20,7 +20,7 @@ typedef void (^CompletionBlock)(BOOL finished, UIImage *image);
 
 
 
--(void) imageDelayMethod:(CompletionBlock) compblock;
+-(void) imageDelayMethod:(int) indexPath block:(CompletionBlock) compblock ;
 
 - (UIImage *) randomImageSelectionOutOfArray: (NSArray *) dataArray;
 

@@ -60,14 +60,12 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     RecipeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    // Configure the cell
-    
-    [cell prepareForReuse];
-    cell.tag = indexPath.row;
     cell.hidden = YES;
-
-    if(cell.tag == indexPath.row) {
-        [imageManager imageDelayMethod:^(BOOL finished, UIImage *image) {
+    cell.tag = indexPath.row;
+    UICollectionViewCell *correctCell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    if (cell.tag == indexPath.row) {
+        [imageManager imageDelayMethod:(int) indexPath.row block:^(BOOL finished, UIImage *image) {
             if (finished) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.hidden = NO;
@@ -91,16 +89,8 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     UICollectionViewCell *cell = (UICollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     cell.backgroundView = nil;
-    cell.backgroundColor = [UIColor blueColor];
 }
 
-
-- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewCell *cell = (UICollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundColor = nil;
-    
-}
 
 
 // Uncomment this method to specify if the specified item should be highlighted during tracking

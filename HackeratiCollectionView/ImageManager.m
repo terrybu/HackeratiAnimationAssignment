@@ -22,7 +22,7 @@
 }
 
 
--(void) imageDelayMethod:(CompletionBlock) compblock {
+-(void) imageDelayMethod:(int)indexPath block:(CompletionBlock)compblock {
     //do stuff
     
     __block UIImage *image;
@@ -30,11 +30,17 @@
     int randomDelay = arc4random_uniform(3);
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, randomDelay * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        image = [self randomImageSelectionOutOfArray:self.recipeImages];
+        image = [self ImageSelectionWithIndex:indexPath];
         compblock(YES, image);
     });
 }
 
+
+- (UIImage *) ImageSelectionWithIndex: (int) indexPath {
+    NSString *imageString = [self.recipeImages objectAtIndex:indexPath];
+    UIImage* image = [UIImage imageNamed:imageString];
+    return image;
+}
 
 - (UIImage *) randomImageSelectionOutOfArray: (NSArray *) dataArray {
     int r = arc4random_uniform((int) dataArray.count);
