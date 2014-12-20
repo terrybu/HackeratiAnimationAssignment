@@ -8,11 +8,12 @@
 
 #import "CanvasCollectionViewController.h"
 #import "RecipeCell.h"
+#import "ImageManager.h"
 
 
 @interface CanvasCollectionViewController () {
     
-    NSArray *recipeImages;
+    ImageManager *imageManager;
 }
 
 @end
@@ -23,16 +24,11 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Initialize recipe image array
-    recipeImages = [NSArray arrayWithObjects:@"angry_birds_cake.jpg", @"creme_brelee.jpg", @"egg_benedict.jpg", @"full_breakfast.jpg", @"green_tea.jpg", @"ham_and_cheese_panini.jpg", @"ham_and_egg_sandwich.jpg", @"hamburger.jpg", @"instant_noodle_with_egg.jpg", @"japanese_noodle_with_pork.jpg", @"mushroom_risotto.jpg", @"noodle_with_bbq_pork.jpg", @"starbucks_coffee.jpg", @"thai_shrimp_cake.jpg", @"vegetable_curry.jpg", @"white_chocolate_donut.jpg", nil];
+    imageManager = [[ImageManager alloc]init];
 
-    
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -57,21 +53,35 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return recipeImages.count;
+    return imageManager.recipeImages.count;
 
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     RecipeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
     // Configure the cell
     
-    cell.recipeImageView.image = [UIImage imageNamed:[recipeImages objectAtIndex:indexPath.row]];
+    [cell prepareForReuse];
+    cell.tag = indexPath.row;
+    cell.hidden = YES;
+
+    if(cell.tag == indexPath.row) {
+        [imageManager imageDelayMethod:^(BOOL finished, UIImage *image) {
+            if (finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.hidden = NO;
+                    cell.imageView.image = image;
+                });
+            }
+        }];
+    }
+    
     cell.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sea"]];
     
     return cell;
 }
+
 
 
 

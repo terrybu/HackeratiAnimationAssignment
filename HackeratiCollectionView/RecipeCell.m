@@ -10,4 +10,10 @@
 
 @implementation RecipeCell
 
+
+-(void)prepareForReuse{
+    
+    self.imageView.image = nil;
+}
+
 @end

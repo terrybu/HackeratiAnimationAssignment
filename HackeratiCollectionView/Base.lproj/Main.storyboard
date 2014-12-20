@@ -32,7 +32,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <outlet property="recipeImageView" destination="Fwq-oS-4eV" id="1QB-KF-0Xs"/>
+                                    <outlet property="imageView" destination="Fwq-oS-4eV" id="yi7-Q3-FoM"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

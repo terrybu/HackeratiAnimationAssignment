@@ -15,6 +15,7 @@
 		AAD22EA51A436FB800956B3B /* HackeratiCollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD22EA41A436FB800956B3B /* HackeratiCollectionViewTests.m */; };
 		AADB736E1A44B3CB00C980FD /* CanvasCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AADB736D1A44B3CB00C980FD /* CanvasCollectionViewController.m */; };
 		AADB73711A44B78000C980FD /* RecipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AADB73701A44B78000C980FD /* RecipeCell.m */; };
+		AADB73741A44CF7700C980FD /* ImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AADB73731A44CF7700C980FD /* ImageManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		AADB736D1A44B3CB00C980FD /* CanvasCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CanvasCollectionViewController.m; path = ../CanvasCollectionViewController.m; sourceTree = "<group>"; };
 		AADB736F1A44B78000C980FD /* RecipeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipeCell.h; sourceTree = "<group>"; };
 		AADB73701A44B78000C980FD /* RecipeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipeCell.m; sourceTree = "<group>"; };
+		AADB73721A44CF7700C980FD /* ImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManager.h; sourceTree = "<group>"; };
+		AADB73731A44CF7700C980FD /* ImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +89,8 @@
 			children = (
 				AADB736C1A44B3CB00C980FD /* CanvasCollectionViewController.h */,
 				AADB736D1A44B3CB00C980FD /* CanvasCollectionViewController.m */,
+				AADB73721A44CF7700C980FD /* ImageManager.h */,
+				AADB73731A44CF7700C980FD /* ImageManager.m */,
 				AAD22E8C1A436FB800956B3B /* AppDelegate.h */,
 				AAD22E8D1A436FB800956B3B /* AppDelegate.m */,
 				AAD22E921A436FB800956B3B /* Main.storyboard */,
@@ -225,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AADB736E1A44B3CB00C980FD /* CanvasCollectionViewController.m in Sources */,
+				AADB73741A44CF7700C980FD /* ImageManager.m in Sources */,
 				AAD22E8E1A436FB800956B3B /* AppDelegate.m in Sources */,
 				AAD22E8B1A436FB800956B3B /* main.m in Sources */,
 				AADB73711A44B78000C980FD /* RecipeCell.m in Sources */,

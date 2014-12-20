@@ -10,6 +10,6 @@
 
 @interface RecipeCell : UICollectionViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *recipeImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
