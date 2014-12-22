@@ -26,8 +26,13 @@
     //do stuff
     
     __block UIImage *image;
+    int randomDelay;
     
-    int randomDelay = arc4random_uniform(3);
+    if (self.isRandomDelayModeOff == TRUE)
+        randomDelay = 0;
+    else
+        randomDelay = arc4random_uniform(3);
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, randomDelay * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         image = [self ImageSelectionWithIndex:indexPath];
@@ -38,13 +43,6 @@
 
 - (UIImage *) ImageSelectionWithIndex: (int) indexPath {
     NSString *imageString = [self.recipeImages objectAtIndex:indexPath];
-    UIImage* image = [UIImage imageNamed:imageString];
-    return image;
-}
-
-- (UIImage *) randomImageSelectionOutOfArray: (NSArray *) dataArray {
-    int r = arc4random_uniform((int) dataArray.count);
-    NSString *imageString = [dataArray objectAtIndex:r];
     UIImage* image = [UIImage imageNamed:imageString];
     return image;
 }

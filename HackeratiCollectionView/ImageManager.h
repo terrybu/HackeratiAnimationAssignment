@@ -16,13 +16,11 @@ typedef void (^CompletionBlock)(BOOL finished, UIImage *image);
 
 
 
-@property (nonatomic, strong)  NSArray *recipeImages;
+@property (nonatomic, strong) NSArray *recipeImages;
+@property BOOL isRandomDelayModeOff;
 
 
-
--(void) imageDelayMethod:(int) indexPath block:(CompletionBlock) compblock ;
-
-- (UIImage *) randomImageSelectionOutOfArray: (NSArray *) dataArray;
+-(void) imageDelayMethod:(int) indexPath block:(CompletionBlock) compblock;
 
 
 

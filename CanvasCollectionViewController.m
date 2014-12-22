@@ -12,7 +12,6 @@
 
 
 @interface CanvasCollectionViewController () {
-    
     ImageManager *imageManager;
 }
 
@@ -26,8 +25,26 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     imageManager = [[ImageManager alloc]init];
 
+    
+    UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectMake(self.view.frame.size.width/2-32, 50, 32, 32)];
+    [onoff addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview: onoff];
+    
 }
 
+- (IBAction)flip:(id)sender {
+    UISwitch *onoff = (UISwitch *) sender;
+    if (onoff.on) {
+        NSLog(@"Random Delay Load Mode Off");
+        imageManager.isRandomDelayModeOff = TRUE;
+        [self.collectionView reloadData];
+    }
+    else {
+        NSLog(@"Random Delay Load Mode Back On");
+        imageManager.isRandomDelayModeOff = FALSE;
+        [self.collectionView reloadData];
+    }
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -60,21 +77,21 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     RecipeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [cell prepareForReuse];
     cell.hidden = YES;
+
     cell.tag = indexPath.row;
-    UICollectionViewCell *correctCell = [collectionView cellForItemAtIndexPath:indexPath];
-    
-    if (cell.tag == indexPath.row) {
-        [imageManager imageDelayMethod:(int) indexPath.row block:^(BOOL finished, UIImage *image) {
-            if (finished) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.hidden = NO;
-                    cell.imageView.image = image;
-                });
+    [imageManager imageDelayMethod:(int) indexPath.row block:^(BOOL finished, UIImage *image) {
+        if (finished) {
+            if (cell.tag == indexPath.row) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.imageView.image = image;
+                cell.hidden = NO;
+            });
             }
-        }];
-    }
-    
+        }
+    }];
+
     cell.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sea"]];
     
     return cell;
@@ -88,21 +105,13 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = (UICollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundView = nil;
+    cell.backgroundView.hidden = YES;
 }
 
 
-
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-
-
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+- (void) collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = (UICollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundView.hidden = NO;
 }
 
 
