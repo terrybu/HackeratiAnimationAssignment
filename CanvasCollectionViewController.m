@@ -13,7 +13,11 @@
 
 @interface CanvasCollectionViewController () {
     ImageManager *imageManager;
+    UIImageView *starImageView;
 }
+
+@property (nonatomic) UIDynamicAnimator *animator;
+
 
 @end
 
@@ -23,14 +27,65 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     imageManager = [[ImageManager alloc]init];
 
+    UILabel *offLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2-16, 15, 32, 32)];
+    offLabel.text = @"Off";
+    offLabel.textColor = [UIColor whiteColor];
+    UISwitch *onOffSwitch = [[UISwitch alloc] initWithFrame: CGRectMake(self.view.frame.size.width/2-28, 50, 32, 32)];
+    [onOffSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview: offLabel];
+    [self.view addSubview: onOffSwitch];
     
-    UISwitch *onoff = [[UISwitch alloc] initWithFrame: CGRectMake(self.view.frame.size.width/2-32, 50, 32, 32)];
-    [onoff addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview: onoff];
+    self.collectionView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"black"]];
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+
     
+    
+    
+    CAEmitterLayer *emitterLayer = [CAEmitterLayer layer];
+    emitterLayer.emitterPosition = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.origin.y);
+    emitterLayer.emitterZPosition = 5;
+    emitterLayer.emitterSize = CGSizeMake(self.view.bounds.size.width, 0);
+    emitterLayer.emitterShape = kCAEmitterLayerSphere;
+    CAEmitterCell *emitterCell = [CAEmitterCell emitterCell];
+    emitterCell.scale = 0.2;
+    emitterCell.scaleRange = 0.4;
+    emitterCell.emissionRange = (CGFloat)M_PI_2;
+    emitterCell.lifetime = 5.0;
+    emitterCell.birthRate = 10;
+    emitterCell.velocity = 200;
+    emitterCell.velocityRange = 50;
+    emitterCell.yAcceleration = 250;
+    emitterCell.contents = (id)[[UIImage imageNamed:@"star"] CGImage];
+    emitterLayer.emitterCells = [NSArray arrayWithObject:emitterCell];
+    [self.view.layer addSublayer:emitterLayer];
+
+    
+    UIImage *starImage = [UIImage imageNamed:@"star"];
+    starImageView = [[UIImageView alloc]initWithImage:starImage];
+    starImageView.frame = CGRectMake(50, 50, 32, 32);
+    [self.view addSubview:starImageView];
+    
+    UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[starImageView]];
+    gravityBehavior.magnitude = 0.5;
+    gravityBehavior.angle = 240;
+    
+    UICollisionBehavior* collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[starImageView]];
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = YES;
+    collisionBehavior.collisionDelegate = self;
+    
+    UIDynamicItemBehavior *elasticity = [[UIDynamicItemBehavior alloc]initWithItems:@[starImageView]];
+    elasticity.elasticity = 0.75;
+    
+    [self.animator addBehavior:gravityBehavior];
+    [self.animator addBehavior:collisionBehavior];
+    [self.animator addBehavior:elasticity];
+
 }
+
+
 
 - (IBAction)flip:(id)sender {
     UISwitch *onoff = (UISwitch *) sender;
@@ -93,6 +148,8 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 
     cell.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"sea"]];
+    
+
     
     return cell;
 }

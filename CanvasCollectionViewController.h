@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CanvasCollectionViewController : UICollectionViewController
+@interface CanvasCollectionViewController : UICollectionViewController <UICollisionBehaviorDelegate>
 
 
 @end
